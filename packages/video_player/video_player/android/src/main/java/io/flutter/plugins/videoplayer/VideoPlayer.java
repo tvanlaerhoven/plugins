@@ -122,6 +122,9 @@ final class VideoPlayer {
         DefaultDrmSessionManager drmManager = new DefaultDrmSessionManager<>(drmSchemeUuid,
                 FrameworkMediaDrm.newInstance(drmSchemeUuid), drmCallback, null, false,
                 INITIAL_DRM_REQUEST_RETRY_COUNT);
+
+        // set securityLevel L3 for now (Flutter is using insecure texture views)
+        drmManager.setPropertyString("securityLevel", "L3");
         drmManager.addListener(new Handler(), new DrmSessionEventListener(eventSink));
         return drmManager;
     }
