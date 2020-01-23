@@ -17,8 +17,9 @@ dependencies:
     sdk: flutter
   meta: ^1.1.7
   video_player_platform_interface:
-    url: https://github.com/tvanlaerhoven/plugins.git
-    path: packages/video_player/video_player_platform_interface
+    git:
+      url: https://github.com/tvanlaerhoven/plugins.git
+      path: packages/video_player/video_player_platform_interface
 
 dev_dependencies:
   flutter_test:
