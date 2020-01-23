@@ -36,20 +36,20 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
         dataSourceDescription = <String, dynamic>{
           'asset': dataSource.asset,
           'package': dataSource.package,
-          'drmContext': dataSource.drmContext,
+          'drmContext': _drmContextStringMap(dataSource.drmContext)
         };
         break;
       case DataSourceType.network:
         dataSourceDescription = <String, dynamic>{
           'uri': dataSource.uri,
           'formatHint': _videoFormatStringMap[dataSource.formatHint],
-          'drmContext': dataSource.drmContext,
+          'drmContext': _drmContextStringMap(dataSource.drmContext)
         };
         break;
       case DataSourceType.file:
         dataSourceDescription = <String, dynamic>{
           'uri': dataSource.uri,
-          'drmContext': dataSource.drmContext
+          'drmContext': _drmContextStringMap(dataSource.drmContext)
         };
         break;
     }
@@ -172,6 +172,30 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
     VideoFormat.dash: 'dash',
     VideoFormat.other: 'other',
   };
+
+  static const Map<DrmScheme, String> _drmSchemeStringMap = <DrmScheme, String>{
+    DrmScheme.fairplay: 'fairplay',
+    DrmScheme.widevine: 'widevine',
+    DrmScheme.playready: 'playready',
+    DrmScheme.cec: 'cec',
+  };
+
+  static const Map<DrmLicenseType, String> _drmLicenseTypeStringMap =
+      <DrmLicenseType, String>{
+    DrmLicenseType.titanium: 'titanium',
+    DrmLicenseType.unspecified: 'unspecified',
+  };
+
+  Map<String, dynamic> _drmContextStringMap(DrmContext drmContext) {
+    return drmContext == null
+        ? null
+        : {
+            'drmScheme': _drmSchemeStringMap[drmContext.drmScheme],
+            'licenseUrl': drmContext.licenseUrl,
+            'licenseType': _drmLicenseTypeStringMap[drmContext.licenseType],
+            'custom': drmContext.custom
+          };
+  }
 
   DurationRange _toDurationRange(dynamic value) {
     final List<dynamic> pair = value;

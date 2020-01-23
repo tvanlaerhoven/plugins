@@ -135,13 +135,13 @@ class DataSource {
   ///
   /// The [package] argument must be non-null when the asset comes from a
   /// package and null otherwise.
-  DataSource({
-    @required this.sourceType,
-    this.uri,
-    this.formatHint,
-    this.asset,
-    this.package,
-  });
+  DataSource(
+      {@required this.sourceType,
+      this.uri,
+      this.formatHint,
+      this.asset,
+      this.package,
+      this.drmContext});
 
   /// The way in which the video was originally loaded.
   ///
@@ -165,6 +165,8 @@ class DataSource {
   /// The package that the asset was loaded from. Only set for
   /// [DataSourceType.asset] videos.
   final String package;
+
+  final DrmContext drmContext;
 }
 
 /// The way in which the video was originally loaded.
@@ -196,6 +198,22 @@ enum VideoFormat {
   /// Any format other than the other ones defined in this enum.
   other
 }
+
+class DrmContext {
+  DrmContext(this.drmScheme, this.licenseUrl, {this.licenseType, this.custom});
+
+  final DrmScheme drmScheme;
+
+  final String licenseUrl;
+
+  final DrmLicenseType licenseType;
+
+  final Map<String, String> custom;
+}
+
+enum DrmScheme { widevine, playready, fairplay, cec }
+
+enum DrmLicenseType { unspecified, titanium }
 
 /// Event emitted from the platform implementation.
 class VideoEvent {
