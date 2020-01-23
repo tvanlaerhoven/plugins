@@ -36,16 +36,21 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
         dataSourceDescription = <String, dynamic>{
           'asset': dataSource.asset,
           'package': dataSource.package,
+          'drmContext': dataSource.drmContext,
         };
         break;
       case DataSourceType.network:
         dataSourceDescription = <String, dynamic>{
           'uri': dataSource.uri,
-          'formatHint': _videoFormatStringMap[dataSource.formatHint]
+          'formatHint': _videoFormatStringMap[dataSource.formatHint],
+          'drmContext': dataSource.drmContext,
         };
         break;
       case DataSourceType.file:
-        dataSourceDescription = <String, dynamic>{'uri': dataSource.uri};
+        dataSourceDescription = <String, dynamic>{
+          'uri': dataSource.uri,
+          'drmContext': dataSource.drmContext
+        };
         break;
     }
 

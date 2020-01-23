@@ -7,6 +7,10 @@ package io.flutter.plugins.videoplayer;
 import android.content.Context;
 import android.util.Log;
 import android.util.LongSparseArray;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.EventChannel;
@@ -15,6 +19,7 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
+import io.flutter.plugins.videoplayer.drm.DrmContext;
 import io.flutter.view.FlutterMain;
 import io.flutter.view.TextureRegistry;
 
@@ -102,6 +107,12 @@ public class VideoPlayerPlugin implements MethodCallHandler, FlutterPlugin {
           EventChannel eventChannel =
               new EventChannel(
                   flutterState.binaryMessenger, "flutter.io/videoPlayer/videoEvents" + handle.id());
+          DrmContext drmContext = null;
+          if (call.argument("drmContext") != null) {
+            Map drmContextArgs = call.argument("drmContext");
+            Map custom = (Map)drmContextArgs.get("custom");
+            drmContext = new DrmContext(drmContextArgs, custom);
+          }
 
           VideoPlayer player;
           if (call.argument("asset") != null) {
@@ -113,6 +124,7 @@ public class VideoPlayerPlugin implements MethodCallHandler, FlutterPlugin {
             } else {
               assetLookupKey = flutterState.keyForAsset.get(call.argument("asset"));
             }
+
             player =
                 new VideoPlayer(
                     flutterState.applicationContext,
@@ -120,7 +132,8 @@ public class VideoPlayerPlugin implements MethodCallHandler, FlutterPlugin {
                     handle,
                     "asset:///" + assetLookupKey,
                     result,
-                    null);
+                    null,
+                    drmContext);
             videoPlayers.put(handle.id(), player);
           } else {
             player =
@@ -130,7 +143,8 @@ public class VideoPlayerPlugin implements MethodCallHandler, FlutterPlugin {
                     handle,
                     call.argument("uri"),
                     result,
-                    call.argument("formatHint"));
+                    call.argument("formatHint"),
+                    drmContext);
             videoPlayers.put(handle.id(), player);
           }
           break;

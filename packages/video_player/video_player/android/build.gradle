@@ -43,6 +43,8 @@ android {
         implementation 'com.google.android.exoplayer:exoplayer-hls:2.9.6'
         implementation 'com.google.android.exoplayer:exoplayer-dash:2.9.6'
         implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.9.6'
+        implementation 'com.google.code.gson:gson:2.8.5'
+        implementation "androidx.annotation:annotation:1.1.0"
     }
 }
 
