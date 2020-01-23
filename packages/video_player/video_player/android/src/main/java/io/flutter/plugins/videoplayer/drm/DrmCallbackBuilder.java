@@ -32,7 +32,7 @@ public class DrmCallbackBuilder {
 
     static private MediaDrmCallback buildTitaniumDrmCallback(DrmContext drmContext, HttpDataSource.Factory dataSourceFactory) {
         Map<String, String> custom = drmContext.customProperties();
-        return new TiMPMediaDrmCallback(drmContext.getLicenseUrl(), custom.get("portalId"), custom.get("customerName"), dataSourceFactory);
+        return new TiMPMediaDrmCallback(drmContext.getLicenseUrl(), custom.get("portalId"), custom.get("customerId"), dataSourceFactory);
     }
 
 }
